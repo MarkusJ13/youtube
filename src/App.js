@@ -16,6 +16,13 @@ class App extends Component {
 	}
 
 	componentDidMount(){
+		const script = document.createElement("script");
+
+        script.src = "https://embed.twitch.tv/embed/v1.js";
+        script.async = true;
+
+        document.body.appendChild(script);
+
 		let self = this
 		$.ajax({
 			url: "https://www.googleapis.com/youtube/v3/search?key=AIzaSyB8aPDUD2B2IZrawHJr0SOiwfchKsLpoEA&channelId=UCD0oMMnL78IdahI82FJdohg&part=snippet,id&order=date&maxResults=20",
@@ -27,6 +34,15 @@ class App extends Component {
 	       		self.setState({videos: videos})
 	   		}
 	   	});
+	}
+
+	componentDidUpdate(){
+		console.log("eh")
+		new window.Twitch.Embed("twitch-embed", {
+	        width: 854,
+	        height: 480,
+	        channel: "monstercat"
+	    });
 	}
 
 	render() {
@@ -47,15 +63,7 @@ class App extends Component {
 		})
 		return (
 			<div className="App">
-				<div className="url-input">
-					<span>Please enter youtube url </span>
-					<input
-						className="input-box"
-						ref="url"
-						placeholder="copy youtube video url here"
-						onChange={function(text){this.setState({url: this.refs.url.value})}.bind(this)}
-					/>
-				</div>
+				<div id="twitch-embed"></div>
 				<div className="video-container">
 					{videos}
 				</div>
