@@ -36,3 +36,14 @@
 .input-box{
   width: 200px;
 }
+
+.video-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.iframe-container{
+  position: relative;
+  margin: 5px;
+}
