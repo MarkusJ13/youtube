@@ -10,7 +10,7 @@ getInstallerConfig()
 
 function getInstallerConfig () {
   console.log('creating windows installer')
-  const rootPath = path.join('./')
+  const rootPath = path.join('./public/')
   const outPath = path.join(rootPath, 'release-builds')
 
   return Promise.resolve({

@@ -15,34 +15,16 @@ class App extends Component {
 		}
 	}
 
-	componentDidMount(){
-		const script = document.createElement("script");
-
-        script.src = "https://embed.twitch.tv/embed/v1.js";
-        script.async = true;
-
-        document.body.appendChild(script);
-
+	componentWillMount(){
 		let self = this
 		$.ajax({
-			url: "https://www.googleapis.com/youtube/v3/search?key=AIzaSyB8aPDUD2B2IZrawHJr0SOiwfchKsLpoEA&channelId=UCD0oMMnL78IdahI82FJdohg&part=snippet,id&order=date&maxResults=20",
+			type: 'GET',
+			url: 'https://api.twitch.tv/kraken/channels/44322889/videos',
+			headers: { 'Accept': 'application/vnd.twitchtv.v5+json', 'Client-ID': '4z20fwq83o89l5sxxsh4bzq17skm7d' },
 			success: function(result){
-	       		let videos = []
-	       		for(let i=0; i<result.items.length; i++){
-	       			videos.push(result.items[i].id.videoId)
-	       		}
-	       		self.setState({videos: videos})
-	   		}
-	   	});
-	}
-
-	componentDidUpdate(){
-		console.log("eh")
-		new window.Twitch.Embed("twitch-embed", {
-	        width: 854,
-	        height: 480,
-	        channel: "monstercat"
-	    });
+				self.setState({videos: result.videos})
+			}
+		});
 	}
 
 	render() {
@@ -50,7 +32,7 @@ class App extends Component {
 			return <div className="iframe-container"> 
 				<Iframe
 					key={"video" + index}
-					url={"https://www.youtube.com/embed/" + data}
+					url={"http://player.twitch.tv/?video=" + data._id + "&autoplay=false"}
 					width="450px"
 					height="450px"
 					id="myId"
@@ -63,7 +45,16 @@ class App extends Component {
 		})
 		return (
 			<div className="App">
-				<div id="twitch-embed"></div>
+				<div className="video-channel">
+					<Iframe
+						url="http://player.twitch.tv/?channel=dallas&muted=false"
+						height="480"
+						width="640"
+						frameBorder="0"
+						scrolling="no"
+						allowFullScreen
+					/>
+				</div>
 				<div className="video-container">
 					{videos}
 				</div>
